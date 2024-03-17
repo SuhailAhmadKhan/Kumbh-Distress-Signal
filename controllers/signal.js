@@ -23,6 +23,28 @@ const getLatestSignal = asyncWrapper(async (req, res) => {
   }
 });
 
+const resolveSignal = asyncWrapper(async (req, res) => {
+  try {
+    const signalId = req.params.id;
+
+    const signal = await Signal.findById(signalId);
+
+    if (!signal) {
+      return res.status(404).json({ message: 'Signal not found' });
+    }
+
+    signal.isResolved = true;
+
+    await signal.save();
+
+    res.status(200).json({ message: 'Signal resolved successfully', signal });
+  } catch (err) {
+    console.error('Error resolving signal:', err);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+
 
 const createSignal = asyncWrapper(async (req, res) => {
   try {
@@ -37,5 +59,6 @@ const createSignal = asyncWrapper(async (req, res) => {
 
 module.exports = {
   getLatestSignal,
-  createSignal
+  createSignal,
+  resolveSignal
 }

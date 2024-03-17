@@ -3,9 +3,11 @@ const router = express.Router()
 
 const {
   getLatestSignal,
-  createSignal
+  createSignal,
+  resolveSignal
 } = require('../controllers/signal')
 
 router.route('/').get(getLatestSignal).post(createSignal)
+router.route('/:id').patch(resolveSignal)
 
 module.exports = router
