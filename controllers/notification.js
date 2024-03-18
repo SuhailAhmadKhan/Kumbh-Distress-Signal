@@ -11,7 +11,7 @@ const getNotification = asyncWrapper(async (req, res) => {
         createdAt: { $gte: oneHourAgo, $lte: currentTime }
       }).sort({ createdAt: -1 });
   
-      if (!signals || signals.length === 0) {
+      if (!notifications || notifications.length === 0) {
         return res.status(404).json({ message: 'No notifications found within the last hour' });
       }
   
